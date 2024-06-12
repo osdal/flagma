@@ -19,64 +19,81 @@ def clean_string(s):
 # cleaned_string = clean_string(input_string)
 # print(cleaned_string)  # Вывод: "+123+456"
 
-baseUrl = 'https://flagma.cz/ru/vacancies/page-'
+
 response = requests.get(f'https://flagma.cz/ru/vacancies/page-1/')
 html = response.text
 # print(response.status_code)
 response.encoding = 'utf-8'
 soup = bs(html, "html.parser")
 
-pageNumber = int((soup.find('div', id='paginator').
-                  find('li', class_='notactive').find('span')).text)
-pagesLinks = []
-for i in range(1, pageNumber + 1):
-    pageLink = baseUrl + str(i)
-    pagesLinks.append(pageLink)
-print(pagesLinks)
+def getPagesLinks():
+    baseUrl = 'https://flagma.cz/ru/vacancies/page-'
+    pageNumber = int((soup.find('div', id='paginator').
+                      find('li', class_='notactive').find('span')).text)
+    pagesLinks = []
+    for i in range(1, pageNumber + 1):
+        pageLink = baseUrl + str(i)
+        pagesLinks.append(pageLink)
+    return (pagesLinks)
+pagesLinks = getPagesLinks()
 
-# def getPagesLinks(pageNumber):
 
-links = []
-data_ads = soup.findAll('div', 'header job')
-# for name_ad in data_ads:
-#     job_name = name_ad.find('h2').text
+def getData(pageLinks):
+    exportGlobal = []
+    links = []
+    vacancy = []
+    for pageLink in pagesLinks:
+        response = requests.get(pageLink)
+        html = response.text
+        soup = bs(html, "html.parser")
+        print(f'Собираю со страницы {pageLink}')
+        data_ads = soup.findAll('div', 'header job')
+        vacancy.append(data_ads)
 
-for limk_ad in data_ads:
-    link = limk_ad.find('a')['href']
-    links.append(link)
+getData(pagesLinks)
 
-# export = []
-# for link in links:
-#     response = requests.get(link)
-#     html = response.text
-#     soup = bs(html, "html.parser")
-#
-#     type_id = 4
-#     title = soup.find('h1').text
-#     description = soup.find(id='description-text').text
-#     name = soup.find('div', 'user-name').text
-#
-#     phone = clean_string(soup.find('a', 'tel').text)
-#     cont = {
-#         "type": "phone",
-#         "contact": phone
-#     }
-#     contacts = []
-#     contacts.append(cont)
-#     author = {
-#         "name": name,
-#         "contacts": contacts
-#     }
-#
-#     data = {
-#         "type_id": type_id,
-#         "title": title,
-#         "description": description,
-#         "view_url": link,
-#         "author": author
-#     }
-#     export.append(data)
-# print(json.dumps(export, indent=4, ensure_ascii=False))
+
+        # for link_ad in data_ads:
+        #     link = link_ad.find('a')['href']
+        #     links.append(link)
+        # print(len(links))
+    #         export = []
+    #         for link in links:
+    #             response = requests.get(link)
+    #             html = response.text
+    #             soup = bs(html, "html.parser")
+    #
+    #             type_id = 4
+    #             title = soup.find('h1').text
+    #             description = soup.find(id='description-text').text
+    #             name = soup.find('div', 'user-name').text
+    #
+    #             phone = clean_string(soup.find('a', 'tel').text)
+    #             cont = {
+    #                 "type": "phone",
+    #                 "contact": phone
+    #             }
+    #             contacts = []
+    #             contacts.append(cont)
+    #             author = {
+    #                 "name": name,
+    #                 "contacts": contacts
+    #             }
+    #
+    #             data = {
+    #                 "type_id": type_id,
+    #                 "title": title,
+    #                 "description": description,
+    #                 "view_url": link,
+    #                 "author": author
+    #             }
+    #             export.append(data)
+    #             print(f'Собрал страницу {pageLink}')
+    #             print(export)
+    #     exportGlobal.append(export)
+    # return exportGlobal
+    #
+    # print(json.dumps(exportGlobal, indent=4, ensure_ascii=False))
 
 
 # file_path = 'data.jsonl'
