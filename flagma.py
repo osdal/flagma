@@ -19,15 +19,22 @@ def clean_string(s):
 # cleaned_string = clean_string(input_string)
 # print(cleaned_string)  # Вывод: "+123+456"
 
-
-response = requests.get('https://flagma.cz/ru/vacancies/page-1/')
+baseUrl = 'https://flagma.cz/ru/vacancies/page-'
+response = requests.get(f'https://flagma.cz/ru/vacancies/page-1/')
 html = response.text
 # print(response.status_code)
 response.encoding = 'utf-8'
 soup = bs(html, "html.parser")
 
-num_pages = int((soup.find('div', id='paginator').
-             find('li', class_='notactive').find('span')).text)
+pageNumber = int((soup.find('div', id='paginator').
+                  find('li', class_='notactive').find('span')).text)
+pagesLinks = []
+for i in range(1, pageNumber + 1):
+    pageLink = baseUrl + str(i)
+    pagesLinks.append(pageLink)
+print(pagesLinks)
+
+# def getPagesLinks(pageNumber):
 
 links = []
 data_ads = soup.findAll('div', 'header job')
@@ -38,47 +45,46 @@ for limk_ad in data_ads:
     link = limk_ad.find('a')['href']
     links.append(link)
 
-export = []
+# export = []
 # for link in links:
-for link in links:
-    response = requests.get(link)
-    html = response.text
-    soup = bs(html, "html.parser")
-
-    type_id = 4
-    title = soup.find('h1').text
-    description = soup.find(id='description-text').text
-    name = soup.find('div', 'user-name').text
-
-    phone = clean_string(soup.find('a', 'tel').text)
-    cont = {
-        "type": "phone",
-        "contact": phone
-    }
-    contacts = []
-    contacts.append(cont)
-    author = {
-        "name": name,
-        "contacts": contacts
-    }
-
-    data = {
-        "type_id": type_id,
-        "title": title,
-        "description": description,
-        "view_url": link,
-        "author": author
-    }
-    export.append(data)
+#     response = requests.get(link)
+#     html = response.text
+#     soup = bs(html, "html.parser")
+#
+#     type_id = 4
+#     title = soup.find('h1').text
+#     description = soup.find(id='description-text').text
+#     name = soup.find('div', 'user-name').text
+#
+#     phone = clean_string(soup.find('a', 'tel').text)
+#     cont = {
+#         "type": "phone",
+#         "contact": phone
+#     }
+#     contacts = []
+#     contacts.append(cont)
+#     author = {
+#         "name": name,
+#         "contacts": contacts
+#     }
+#
+#     data = {
+#         "type_id": type_id,
+#         "title": title,
+#         "description": description,
+#         "view_url": link,
+#         "author": author
+#     }
+#     export.append(data)
 # print(json.dumps(export, indent=4, ensure_ascii=False))
 
 
-file_path = 'data.jsonl'
-with open(file_path, 'w', encoding='utf-8') as f:
-    # Преобразование словаря в строку формата JSON и запись в файл
-    f.write(json.dumps(data, ensure_ascii=False) + '\n')
-
-print(f"Данные успешно сохранены в файл {file_path}")
+# file_path = 'data.jsonl'
+# with open(file_path, 'w', encoding='utf-8') as f:
+#     # Преобразование словаря в строку формата JSON и запись в файл
+#     f.write(json.dumps(data, ensure_ascii=False) + '\n')
+#
+# print(f"Данные успешно сохранены в файл {file_path}")
 
 # url = 'https://base.eriar.com/api/ads/import'
 # files = {'file': open('data.jsonl', 'rb')}
