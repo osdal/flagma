@@ -2,6 +2,9 @@ import requests
 from bs4 import BeautifulSoup as bs
 import json
 import re
+import pandas as pd
+import time
+import random
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
@@ -20,11 +23,14 @@ def clean_string(s):
 # print(cleaned_string)  # Вывод: "+123+456"
 
 
-response = requests.get(f'https://flagma.cz/ru/vacancies/page-1/')
+response = requests.get('https://flagma.cz/ru/vacancies/page-1/')
 html = response.text
 # print(response.status_code)
 response.encoding = 'utf-8'
+if response.status_code == 200:
+    html = response.text
 soup = bs(html, "html.parser")
+
 
 def getPagesLinks():
     baseUrl = 'https://flagma.cz/ru/vacancies/page-'
@@ -35,96 +41,112 @@ def getPagesLinks():
         pageLink = baseUrl + str(i)
         pagesLinks.append(pageLink)
     return (pagesLinks)
-pagesLinks = getPagesLinks()
 
-
-def getData(pageLinks):
-    exportGlobal = []
+def getVacancyLinks(pagesLinks):
     links = []
-    vacancy = []
     for pageLink in pagesLinks:
         response = requests.get(pageLink)
         html = response.text
         soup = bs(html, "html.parser")
         print(f'Собираю со страницы {pageLink}')
         data_ads = soup.findAll('div', 'header job')
-        vacancy.append(data_ads)
+        for block in data_ads:
+            link = block.find('a')['href']
+            links.append(link)
+        # Преобразуем список в DataFrame
+        df = pd.DataFrame(links, columns=["links"])
 
-getData(pagesLinks)
+        # Сохраняем DataFrame в CSV файл
+        df.to_csv("links.csv", index=False)
 
 
-        # for link_ad in data_ads:
-        #     link = link_ad.find('a')['href']
-        #     links.append(link)
-        # print(len(links))
-    #         export = []
-    #         for link in links:
-    #             response = requests.get(link)
-    #             html = response.text
-    #             soup = bs(html, "html.parser")
+
+
+# Чтение из CSV файла
+df = pd.read_csv("links.csv")
+
+# Преобразуем DataFrame обратно в список
+links = df["links"].tolist()
+
+def getVacancies():
+    export = []
+    for link in links:
+        # Выбор случайного времени задержки от 10 до 20 секунд
+        delay = random.uniform(5, 15)
+
+        # Печать времени задержки (опционально)
+        print(f"Задержка на {delay:.2f} секунд")
+
+        # Задержка выполнения программы
+        time.sleep(delay)
+        response = requests.get(link)
+        html = response.text
+        soup = bs(html, "html.parser")
+        type_id = 4
+        title = soup.find('h1').text
+        description = soup.find(id='description-text').text
+        name = soup.find('div', 'user-name').text
+
+        phone = clean_string(soup.find('a', 'tel').text)
+        cont = {
+            "type": "phone",
+            "contact": phone
+        }
+        contacts = []
+        contacts.append(cont)
+        author = {
+            "name": name,
+            "contacts": contacts
+        }
+
+        data = {
+            "type_id": type_id,
+            "title": title,
+            "description": description,
+            "view_url": link,
+            "author": author
+        }
+        export.append(data)
+        # vacancies = json.dumps(export, indent=4, ensure_ascii=False)
+    return(export)
+
+
+
+# Имя файла для сохранения
+file_name = 'data.jsonl'
+def saveJSONL(file_name):
+    # Сохранение списка словарей в формате JSONL
+    with open(file_name, 'w', encoding='utf-8') as f:
+        for item in vacancies:
+            f.write(json.dumps(item, ensure_ascii=False) + '\n')
+
+    print(f"Data has been saved to {file_name}")
+
+
+def sendData(file_name):
+    url = 'https://base.eriar.com/api/ads/import'
+    files = {'file': open('data.jsonl', 'rb')}
+    headers = {'Api-Key': 'ITmXtu3zu9OySyWSx9W7vWPARatx9YaG'}
+
+    response = requests.post(url, files=files, headers=headers)
+
+    print(response.status_code)
+    print(response.text)
+    imp_id = json.loads(response.text)
+    import_id = imp_id['import_id']
+    url = f'https://base.eriar.com/api/ads/import/{import_id}'
+    print(url)
+    headers = {'Api-Key': 'ITmXtu3zu9OySyWSx9W7vWPARatx9YaG'}
+
+    response = requests.get(url, headers=headers)
     #
-    #             type_id = 4
-    #             title = soup.find('h1').text
-    #             description = soup.find(id='description-text').text
-    #             name = soup.find('div', 'user-name').text
-    #
-    #             phone = clean_string(soup.find('a', 'tel').text)
-    #             cont = {
-    #                 "type": "phone",
-    #                 "contact": phone
-    #             }
-    #             contacts = []
-    #             contacts.append(cont)
-    #             author = {
-    #                 "name": name,
-    #                 "contacts": contacts
-    #             }
-    #
-    #             data = {
-    #                 "type_id": type_id,
-    #                 "title": title,
-    #                 "description": description,
-    #                 "view_url": link,
-    #                 "author": author
-    #             }
-    #             export.append(data)
-    #             print(f'Собрал страницу {pageLink}')
-    #             print(export)
-    #     exportGlobal.append(export)
-    # return exportGlobal
-    #
-    # print(json.dumps(exportGlobal, indent=4, ensure_ascii=False))
+    print(response.status_code)
+    print(response.text)
+
+# pagesLinks = getPagesLinks()
+# getVacancyLinks(pagesLinks)
+# vacancies = getVacancies()
+# saveJSONL()
+sendData(file_name)
 
 
-# file_path = 'data.jsonl'
-# with open(file_path, 'w', encoding='utf-8') as f:
-#     # Преобразование словаря в строку формата JSON и запись в файл
-#     f.write(json.dumps(data, ensure_ascii=False) + '\n')
-#
-# print(f"Данные успешно сохранены в файл {file_path}")
-
-# url = 'https://base.eriar.com/api/ads/import'
-# files = {'file': open('data.jsonl', 'rb')}
-# headers = {'Api-Key': 'ITmXtu3zu9OySyWSx9W7vWPARatx9YaG'}
-#
-# response = requests.post(url, files=files, headers=headers)
-#
-# print(response.status_code)
-# print(response.text)
-
-# url = 'https://base.eriar.com/api/ads/import/10'
-# headers = {'Api-Key': 'ITmXtu3zu9OySyWSx9W7vWPARatx9YaG'}
-#
-# response = requests.get(url, headers=headers)
-#
-# print(response.status_code)
-# print(response.text)
-
-
-# for i in range(len(data_ads)):
-#     data_ad = {
-#         'title': job_name,
-#         'link': link,
-#     }
-#     data_ads[i] = data_ad
-# print(len(links))
