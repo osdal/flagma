@@ -126,7 +126,11 @@ def getVacancies():
         soup = bs(html, "html.parser")
         type_id = 4
         title = soup.find('h1').text
-        description = soup.find(id='description-text').text
+        if soup.find(id='description-text').text is not None:
+            description = soup.find(id='description-text').text
+        else:
+            print(f'У вакансии {link} нет описания')
+            description = ""
         name = soup.find('div', 'user-name').text
 
         phone = clean_string(soup.find('a', 'tel').text)
