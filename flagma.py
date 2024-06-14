@@ -45,6 +45,13 @@ def getPagesLinks():
 def getVacancyLinks(pagesLinks):
     links = []
     for pageLink in pagesLinks:
+        # Выбор случайного времени задержки от 10 до 20 секунд
+        delay = random.uniform(5, 15)
+        # Печать времени задержки (опционально)
+        print(f"Задержка на {delay:.2f} секунд")
+        # Задержка выполнения программы
+        time.sleep(delay)
+
         response = requests.get(pageLink)
         html = response.text
         soup = bs(html, "html.parser")
@@ -58,6 +65,7 @@ def getVacancyLinks(pagesLinks):
 
         # Сохраняем DataFrame в CSV файл
         df.to_csv("links.csv", index=False)
+        print('Ссылки на вакансии собраны')
 
 
 
@@ -68,6 +76,40 @@ df = pd.read_csv("links.csv")
 # Преобразуем DataFrame обратно в список
 links = df["links"].tolist()
 
+def modify_string(input_string):
+    # Удаление вхождения "Работа в "
+    modified_string = input_string.replace("Работа в ", "")
+
+    # Удаление последней буквы из оставшегося слова
+    if modified_string:
+        modified_string = modified_string[:-1]
+
+    return modified_string
+
+def getCategory():
+    for link in links:
+        response = requests.get(link)
+        html = response.text
+        soup = bs(html, "html.parser")
+        bread_crumbs_div = soup.find('div', class_='bread-crumbs-line')
+        spans = bread_crumbs_div.find_all('span')
+        print(spans)
+
+        if len(spans) >= 2:
+            category = spans[2].find('a').text
+            print(category)
+        else:
+            print("В этой вакансии категория не указана")
+            category = "Категория не указана"  # Значение по умолчанию
+        return category.text
+# ----------------------------------
+
+# response = requests.get('https://flagma.cz/ru/vakansiya-upakovka-yogurtov-danone-bez-nochnyh-smen-rv129962.html')
+# html = response.text
+# soup = bs(html, "html.parser")
+
+
+# ------------------------------
 def getVacancies():
     export = []
     for link in links:
@@ -98,13 +140,20 @@ def getVacancies():
             "name": name,
             "contacts": contacts
         }
-
+        country = "Чехия"
+        city = modify_string(soup.find('span', itemprop='name').text)
+        bread_crumbs_div = soup.find('div', class_='bread-crumbs-line')
+        spans = bread_crumbs_div.find_all('span')
+        category = spans[3].find('a').text
         data = {
             "type_id": type_id,
             "title": title,
             "description": description,
             "view_url": link,
-            "author": author
+            "author": author,
+            "country": country,
+            "city": city,
+            "category": category
         }
         export.append(data)
         # vacancies = json.dumps(export, indent=4, ensure_ascii=False)
@@ -145,8 +194,8 @@ def sendData(file_name):
 
 # pagesLinks = getPagesLinks()
 # getVacancyLinks(pagesLinks)
-# vacancies = getVacancies()
-# saveJSONL()
+vacancies = getVacancies()
+saveJSONL()
 sendData(file_name)
 
 
