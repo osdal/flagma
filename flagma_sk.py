@@ -69,7 +69,7 @@ def getVacancyLinks(pagesLinks):
 getVacancyLinks(getPagesLinks())
 
 # Чтение из CSV файла
-df = pd.read_csv("links.csv")
+df = pd.read_csv("links_sk.csv")
 
 # Преобразуем DataFrame обратно в список
 links = df["links"].tolist()
