@@ -24,7 +24,6 @@ headers = {
 
 response = requests.get('https://flagma.cz/ru/vacancies/page-1/')
 html = response.text
-# print(response.status_code)
 response.encoding = 'utf-8'
 if response.status_code == 200:
     html = response.text
@@ -69,7 +68,7 @@ def getPagesLinks():
     for i in range(1, pageNumber + 1):
         pageLink = baseUrl + str(i)
         pagesLinks.append(pageLink)
-    return (pagesLinks)
+    return pagesLinks
 
 
 def getVacancyLinks(pagesLinks, dataExist):
@@ -77,11 +76,8 @@ def getVacancyLinks(pagesLinks, dataExist):
     vacancy_new = None
     vacancy_old = None
     for pageLink in pagesLinks:
-        # Выбор случайного времени задержки от 10 до 20 секунд
         delay = random.uniform(5, 15)
-        # Печать времени задержки (опционально)
         print(f"Задержка на {delay:.2f} секунд")
-        # Задержка выполнения программы
         time.sleep(delay)
 
         response = requests.get(pageLink)
@@ -95,17 +91,16 @@ def getVacancyLinks(pagesLinks, dataExist):
 
         nested_folder = "DATA/links"
         if dataExist:
-            file_name = f"vacancies_links-{current_date}.csv"
-            vacancy_new = file_name
+            file_name_new = f"vacancies_links-{current_date}.csv"
+            vacancy_new = file_name_new
+            file_path = os.path.join(nested_folder, file_name_new)
         else:
-            file_name = f"vacancies_links.csv"
-            vacancy_old = file_name
-        file_path = os.path.join(nested_folder, file_name)
+            file_name_old = f"vacancies_links.csv"
+            vacancy_old = file_name_old
+            file_path = os.path.join(nested_folder, file_name_old)
 
-        # Создание вложенной папки, если она не существует
         os.makedirs(nested_folder, exist_ok=True)
 
-        # Открываем файл в режиме записи ('w' - write) по полному пути
         with open(file_path, 'w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             for item in links:
@@ -122,53 +117,42 @@ else:
 
 
 def compareVacanciesLinks(vacancy_old, vacancy_new):
-    # Чтение данных из CSV файлов
     df1 = pd.read_csv(vacancy_old, header=None, names=['url'])
     df2 = pd.read_csv(vacancy_new, header=None, names=['url'])
 
-    # Найти уникальные строки в каждом DataFrame
     unique_to_df1 = df1[~df1['url'].isin(df2['url'])]
     unique_to_df2 = df2[~df2['url'].isin(df1['url'])]
 
-    # Объединить уникальные строки в один DataFrame
     result_df = pd.concat([unique_to_df1, unique_to_df2], ignore_index=True)
 
-    # Сохранить отличающиеся строки в новый CSV файл
     result_df.to_csv('DATA/links/vacancy_diff.csv', index=False, header=False)
 
 
 pageslinks = getPagesLinks()
-links = getVacancyLinks(pageslinks, dataExist)
+dataExist = dataExistFunc(root_directory, file_to_find)  # Исправлено: передача аргументов
+links, vacancy_new, vacancy_old = getVacancyLinks(pageslinks, dataExist)
 
-# Путь к вашему CSV файлу во вложенной папке
 file_path = 'DATA/links/vacancy_diff.csv'
 
-if os.path.exists(file_path):
-    # Открываем файл и читаем его содержимое
-    with open(file_path, mode='r', newline='', encoding='utf-8') as csvfile:
-        csvreader = csv.reader(csvfile)
-        for row in csvreader:
-            # Преобразуем список в строку, соединяя элементы через запятую
-            line = ','.join(row)
-            links.append(line)
-else:
-    print(f"Файл по адресу {file_path} не существует.")
+links = []
+
+with open(file_path, mode='r', newline='', encoding='utf-8') as csvfile:
+    csvreader = csv.reader(csvfile)
+    for row in csvreader:
+        line = ','.join(row)
+        links.append(line)
+
 
 def getVacancies(links):
     export = []
     for link in links:
-        # Выбор случайного времени задержки от 10 до 20 секунд
         delay = random.uniform(5, 15)
-
-        # Печать времени задержки (опционально)
         print(f"Задержка на {delay:.2f} секунд")
-
-        # Задержка выполнения программы
         time.sleep(delay)
         response = requests.get(link)
         html = response.text
         soup = bs(html, "html.parser")
-        type_id = 1
+        type_id = 4
         title = soup.find('h1').text
         if soup.find(id='description-text').text is not None:
             description = soup.find(id='description-text').text
@@ -182,8 +166,7 @@ def getVacancies(links):
             "type": "phone",
             "contact": phone
         }
-        contacts = []
-        contacts.append(cont)
+        contacts = [cont]
         author = {
             "name": name,
             "contacts": contacts
@@ -204,19 +187,13 @@ def getVacancies(links):
             "category": category
         }
         export.append(data)
-        # vacancies = json.dumps(export, indent=4, ensure_ascii=False)
-
-        # Имя файла для сохранения
-        file_name = 'DATA/data.jsonl'
     return export
 
 
-# Имя файла для сохранения
-file_name = 'DATA/data.jsonl'
+vacancies = getVacancies(links)  # Исправлено: определение переменной до вызова функции saveJSONL
 
 
-def saveJSONL(file_name):
-    # Сохранение списка словарей в формате JSONL
+def saveJSONL(file_name, vacancies):  # Исправлено: передача аргументов в функцию
     with open(file_name, 'w', encoding='utf-8') as f:
         for item in vacancies:
             f.write(json.dumps(item, ensure_ascii=False) + '\n')
@@ -226,53 +203,4 @@ def saveJSONL(file_name):
 
 def sendData(file_name):
     url = 'https://base.eriar.com/api/ads/import'
-    files = {'file': open('DATA/data.jsonl', 'rb')}
-    headers = {'Api-Key': 'ITmXtu3zu9OySyWSx9W7vWPARatx9YaG'}
 
-    response = requests.post(url, files=files, headers=headers)
-
-    print(response.status_code)
-    print(response.text)
-    imp_id = json.loads(response.text)
-    import_id = imp_id['import_id']
-    url = f'https://base.eriar.com/api/ads/import/{import_id}'
-    print(url)
-    headers = {'Api-Key': 'ITmXtu3zu9OySyWSx9W7vWPARatx9YaG'}
-
-    response = requests.get(url, headers=headers)
-    #
-    print(response.status_code)
-    print(response.text)
-
-    # Получить текущую дату и время
-    current_datetime = datetime.now()
-
-    # Преобразовать дату в строку
-    current_date = current_datetime.strftime("%Y-%m-%d")
-    file_name = 'DATA/logs/' + current_date + '.txt'
-
-    if response.status_code == 200:
-        # Записываем строку в текстовый файл
-        with open(file_name, 'w', encoding='utf-8') as text_file:
-            text_file.write(response.text)
-    else:
-        with open(file_name, 'w', encoding='utf-8') as text_file:
-            text_file.write(response.status_code)
-
-
-links, vacancy_new, vacancy_old = getVacancyLinks(pageslinks, dataExist)
-print('vacancy_new='+vacancy_new, 'vacancy_old='+ vacancy_old)
-# compareVacanciesLinks(vacancy_old=vacancy_old, vacancy_new=vacancy_new)
-# vacancies = getVacancies(links)
-# saveJSONL(file_name)
-# sendData(file_name)
-
-
-end_time = time.time()
-execution_time = end_time - start_time
-
-# Открываем файл в режиме добавления ('a')
-file_name = 'DATA/logs/' + current_date + '.txt'
-with open(file_name, 'a', encoding='utf-8') as file:
-    # Пишем данные в файл
-    file.write(f'Программа выполнялась {str(execution_time)} c.\n')
