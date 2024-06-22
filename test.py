@@ -18,6 +18,7 @@ logging.basicConfig(filename='error.log',
                     format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.ERROR)
 
+
 def main():
     try:
 
@@ -41,11 +42,9 @@ def main():
             html = response.text
         soup = bs(html, "html.parser")
 
-
         def clean_string(s):
             # Заменяем все символы, кроме цифр и плюса, на пустую строку
             return re.sub(r'[^0-9+]', '', s)
-
 
         def modify_string(input_string):
             # Удаление вхождения "Работа в "
@@ -57,7 +56,6 @@ def main():
 
             return modified_string
 
-
         def dataExistFunc(root_dir, filename):
             for dirpath, dirnames, filenames in os.walk(root_dir):
                 if filename in filenames:
@@ -66,11 +64,9 @@ def main():
             dataExist = False
             return dataExist
 
-
         # Пример использования
         root_directory = 'DATA'  # Укажите путь к папке DATA
         file_to_find = 'data.jsonl'
-
 
         def getPagesLinks():
             baseUrl = 'https://flagma.cz/ru/vacancies/page-'
@@ -81,7 +77,6 @@ def main():
                 pageLink = baseUrl + str(i)
                 pagesLinks.append(pageLink)
             return (pagesLinks)
-
 
         def getVacancyLinks(pagesLinks, dataExist):
             links = []
@@ -123,14 +118,12 @@ def main():
                         writer.writerow([item])
             return links, vacancy_new, vacancy_old
 
-
         if dataExistFunc(root_directory, file_to_find):
             print(f"Файл '{file_to_find}' найден в '{root_directory}' или одной из его вложенных папок.")
             dataExist = True
         else:
             print(f"Файл '{file_to_find}' не найден в '{root_directory}' или одной из его вложенных папок.")
             dataExist = False
-
 
         def compareVacanciesLinks(vacancy_old, vacancy_new):
             # Чтение данных из CSV файлов
@@ -146,6 +139,23 @@ def main():
 
             # Сохранить отличающиеся строки в новый CSV файл
             result_df.to_csv('DATA/links/vacancy_diff.csv', index=False, header=False)
+
+            # Удаляем файл vacansies.csv, если он существует
+            file_to_delete = vacancy_old
+            if os.path.exists(file_to_delete):
+                os.remove(file_to_delete)
+                print(f"Файл {file_to_delete} удалён.")
+            else:
+                print(f"Файл {file_to_delete} не найден.")
+
+            # Переименовываем файл vacancy_old в vacancy_new
+            old_filename = vacancy_new
+            new_filename = vacancy_old
+            if os.path.exists(old_filename):
+                os.rename(old_filename, new_filename)
+                print(f"Файл {old_filename} переименован в {new_filename}.")
+            else:
+                print(f"Файл {old_filename} не найден.")
 
         # Это просто для ускорения процесса прочитаю ссылки из готового файла
         # --------------------------------------------------------------------------------------------------
@@ -235,10 +245,8 @@ def main():
                 file_name = 'DATA/data.jsonl'
             return export
 
-
         # Имя файла для сохранения
-        file_name = 'DATA/data.jsonl'
-
+        file_name = f'DATA/data-{current_date}.jsonl'
 
         def saveJSONL(file_name):
             # Сохранение списка словарей в формате JSONL
@@ -247,7 +255,7 @@ def main():
                     f.write(json.dumps(item, ensure_ascii=False) + '\n')
 
             print(f"Data has been saved to {file_name}")
-
+            return file_name
 
         def sendData(file_name):
             url = 'https://base.eriar.com/api/ads/import'
@@ -284,14 +292,28 @@ def main():
                 with open(file_name, 'w', encoding='utf-8') as text_file:
                     text_file.write(response.status_code)
 
-
         links, vacancy_new, vacancy_old = getVacancyLinks(pageslinks, dataExist)
-        print('vacancy_new='+vacancy_new, 'vacancy_old='+ vacancy_old)
-        # compareVacanciesLinks(vacancy_old=vacancy_old, vacancy_new=vacancy_new)
-        vacancies = getVacancies(links)
-        # saveJSONL(file_name)
-        # sendData(file_name)
+        print('vacancy_new=' + vacancy_new, 'vacancy_old=' + vacancy_old)
+        compareVacanciesLinks(vacancy_old=vacancy_old, vacancy_new=vacancy_new)
 
+        # Задаем путь к файлу
+        file_path = 'DATA/links/vacancy_diff.csv'
+
+        # Проверяем, существует ли файл
+        if os.path.exists(file_path):
+            # Открываем и читаем файл
+            with open(file_path, 'r', encoding='utf-8') as file:
+                links = [line.strip() for line in file.readlines()]
+
+            # Выводим список links
+            print(links)
+        else:
+            print(f'Файл {file_path} не существует.')
+
+        vacancies = getVacancies(links)
+        file_name = saveJSONL(file_name)
+
+        sendData(file_name)
 
         end_time = time.time()
         execution_time = end_time - start_time
@@ -305,6 +327,7 @@ def main():
     except Exception as e:
         logging.error("Произошла ошибка", exc_info=True)
         print(f"Ошибка записана в файл error.log: {e}")
+
 
 if __name__ == "__main__":
     main()
