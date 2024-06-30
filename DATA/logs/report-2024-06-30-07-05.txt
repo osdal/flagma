@@ -1,0 +1,1 @@
+{"id":1177,"app_id":5,"user_id":64,"path":"ads_import\/Znkw3NZ3jDu4R5HHNbmCY1PWCnJOVwUyw2sJNVbG","status_id":0,"total":0,"processed":0,"created":0,"updated":0,"failed":0,"created_at":"2024-06-30T04:05:43.000000Z","updated_at":"2024-06-30T04:05:43.000000Z","errors":[]}

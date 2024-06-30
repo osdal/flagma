@@ -5,7 +5,74 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2bed6c4-b1ac-4760-89e2-7e6ec1fa688f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/DATA/data.jsonl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/links/vacancies.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/links/vacancies_links-2024-06-29-07-45.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/links/vacancy_diff.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-28-22-14.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-28-22-28.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-06-58.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-07-29.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-07-34.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-07-46.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-07-48.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-07-49.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-07-50.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-07-51.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-07-52.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-07-53.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/2024-06-29-07-54.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-28-18-42.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-28-18-48.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-28-18-53.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-28-19-11.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-28-21-10.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-28-21-16.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-28-22-19.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-28-22-33.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-28.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-06-59.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-07-30.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-07-34.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-07-46.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-07-49.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-07-50.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-07-51.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-07-52.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-07-53.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-07-54.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/logs/report-2024-06-29-07-55.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DATA/proxy.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compare_vacancies_links.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/error.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/https.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mini.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mini_local_ip.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/read_in_list.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rollback.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sklad.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test_fix.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testing.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/links/vacancies_links.csv" beforeDir="false" afterPath="$PROJECT_DIR$/DATA/links/vacancies_links.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/11111.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-17.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-09-35.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-09-46.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-10-46.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-10-47.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-10-49.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-10-52.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-10-53.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-11-03.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-11-08.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-11-22.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-11-25.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-11-29.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-11-30.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18-11-32.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DATA/logs/2024-06-18.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data.jsonl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,39 +94,53 @@
   &quot;associatedIndex&quot;: 5
 }</component>
   <component name="ProjectId" id="2hafQR0hebN3OTNchD4A0Ni05Gl" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.compare_vacancies_links.executor&quot;: &quot;Run&quot;,
     &quot;Python.flagma.executor&quot;: &quot;Run&quot;,
     &quot;Python.flagma_sk.executor&quot;: &quot;Run&quot;,
+    &quot;Python.https.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mini.executor&quot;: &quot;Run&quot;,
+    &quot;Python.mini_local_ip.executor&quot;: &quot;Run&quot;,
+    &quot;Python.read_in_list.executor&quot;: &quot;Run&quot;,
+    &quot;Python.rollback.executor&quot;: &quot;Run&quot;,
     &quot;Python.test.executor&quot;: &quot;Run&quot;,
     &quot;Python.test2.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test_fix.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testing.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Data/flagma&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Data/flagma/mini_local_ip.py&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;two.files.diff.last.used.file&quot;: &quot;E:/Data/flagma/mini_local_ip.py&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Data\flagma\DATA\links" />
+      <recent name="E:\Data\flagma" />
       <recent name="G:\Data\flagma\DATA" />
       <recent name="C:\Data\Projects\flagma" />
       <recent name="G:\Data\flagma" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test">
-    <configuration name="flagma_cz" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.mini_local_ip">
+    <configuration name="compare_vacancies_links" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="flagma" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -73,7 +154,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="C:\Data\Projects\flagma\flagma_cz.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/compare_vacancies_links.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -82,7 +163,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="flagma_sk" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="mini" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="flagma" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -96,7 +177,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/flagma_sk.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mini.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -105,7 +186,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="mini_local_ip" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="flagma" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -119,7 +200,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mini_local_ip.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -128,7 +209,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test2" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="read_in_list" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="flagma" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -142,7 +223,30 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test2.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/read_in_list.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="rollback" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="flagma" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/rollback.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -153,10 +257,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test" />
-        <item itemvalue="Python.test2" />
-        <item itemvalue="Python.flagma_sk" />
-        <item itemvalue="Python.flagma_cz" />
+        <item itemvalue="Python.mini_local_ip" />
+        <item itemvalue="Python.read_in_list" />
+        <item itemvalue="Python.rollback" />
+        <item itemvalue="Python.compare_vacancies_links" />
+        <item itemvalue="Python.mini" />
       </list>
     </recent_temporary>
   </component>
@@ -193,6 +298,23 @@
       <workItem from="1718961677320" duration="2324000" />
       <workItem from="1718993711575" duration="2808000" />
       <workItem from="1719030967281" duration="5265000" />
+      <workItem from="1719116184072" duration="4884000" />
+      <workItem from="1719128812386" duration="3167000" />
+      <workItem from="1719200128719" duration="23610000" />
+      <workItem from="1719234475701" duration="2230000" />
+      <workItem from="1719243087525" duration="10460000" />
+      <workItem from="1719285093752" duration="3020000" />
+      <workItem from="1719301209225" duration="834000" />
+      <workItem from="1719332981605" duration="1815000" />
+      <workItem from="1719372666423" duration="890000" />
+      <workItem from="1719463422968" duration="9149000" />
+      <workItem from="1719515549792" duration="526000" />
+      <workItem from="1719543988888" duration="8821000" />
+      <workItem from="1719585357886" duration="18399000" />
+      <workItem from="1719632901763" duration="3099000" />
+      <workItem from="1719660268169" duration="853000" />
+      <workItem from="1719678405584" duration="5626000" />
+      <workItem from="1719718506450" duration="3049000" />
     </task>
     <servers />
   </component>
@@ -210,10 +332,21 @@
       </map>
     </option>
   </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/flagma$rollback.coverage" NAME="rollback Coverage Results" MODIFIED="1719683538927" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/flagma$mini_local_ip.coverage" NAME="mini_local_ip Coverage Results" MODIFIED="1719721140691" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/flagma$flagma_sk.coverage" NAME="flagma_sk Coverage Results" MODIFIED="1718356897777" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/flagma$read_in_list.coverage" NAME="read_in_list Coverage Results" MODIFIED="1719719401226" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/flagma$mini.coverage" NAME="mini Coverage Results" MODIFIED="1719547011629" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/flagma$https.coverage" NAME="https Coverage Results" MODIFIED="1719547049547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/flagma$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1718643922353" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/flagma$test.coverage" NAME="test Coverage Results" MODIFIED="1718777039756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/flagma$compare_vacancies_links.coverage" NAME="compare_vacancies_links Coverage Results" MODIFIED="1719593086653" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/flagma$test.coverage" NAME="test Coverage Results" MODIFIED="1719475501901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/flagma$flagma.coverage" NAME="flagma Coverage Results" MODIFIED="1718338286730" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/flagma$test_fix.coverage" NAME="test_fix Coverage Results" MODIFIED="1719223134907" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/flagma$testing.coverage" NAME="testing Coverage Results" MODIFIED="1719372885121" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

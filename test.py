@@ -13,7 +13,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 
 # Настроим логирование
-logging.basicConfig(filename='error.log',
+logging.basicConfig(filename='DATA/logs/error.log',
                     filemode='w',
                     format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.ERROR)
@@ -102,7 +102,7 @@ def main():
                 nested_folder = "DATA/links"
                 if dataExist:
                     file_name = f"vacancies_links-{current_date}.csv"
-                    vacancy_new = file_name
+                    vacancy_new = str(file_name)
                 else:
                     file_name = f"vacancies_links.csv"
                     vacancy_old = file_name
@@ -126,21 +126,57 @@ def main():
             dataExist = False
 
         def compareVacanciesLinks(vacancy_old, vacancy_new):
-            # Чтение данных из CSV файлов
-            df1 = pd.read_csv(vacancy_old, header=None, names=['url'])
-            df2 = pd.read_csv(vacancy_new, header=None, names=['url'])
+            try:
+                # Чтение данных из CSV файлов
+                df1 = pd.read_csv(vacancy_old, header=None, names=['url'])
+                print(f"Содержимое {vacancy_old}:")
+                print(df1.head())
+            except Exception as e:
+                print(f"Ошибка при чтении файла {vacancy_old}: {e}")
+                return
+
+            try:
+                if os.path.exists(vacancy_new):
+                    df2 = pd.read_csv(vacancy_new, header=None, names=['url'])
+                    print(f"Содержимое {vacancy_new}:")
+                    print(df2.head())
+                else:
+                    print(f"Файл {vacancy_new} не существует.")
+                    return
+            except Exception as e:
+                print(f"Ошибка при чтении файла {vacancy_new}: {e}")
+                return
 
             # Найти уникальные строки в каждом DataFrame
             unique_to_df1 = df1[~df1['url'].isin(df2['url'])]
             unique_to_df2 = df2[~df2['url'].isin(df1['url'])]
 
+            if unique_to_df1.empty and unique_to_df2.empty:
+                print("Нет различий между файлами.")
+                with open(f'DATA/logs/report-{current_date}.txt', 'a', encoding='utf-8') as f:
+                    f.write("новых вакансий не было\n")
+                return
+
             # Объединить уникальные строки в один DataFrame
             result_df = pd.concat([unique_to_df1, unique_to_df2], ignore_index=True)
+            print("Уникальные строки:")
+            print(result_df.head())
+
+            # Проверка, что директория существует
+            result_file_path = 'DATA/links/vacancy_diff.csv'
+            result_dir = os.path.dirname(result_file_path)
+            if not os.path.exists(result_dir):
+                print(f"Директория {result_dir} не существует, создаем её.")
+                os.makedirs(result_dir, exist_ok=True)
 
             # Сохранить отличающиеся строки в новый CSV файл
-            result_df.to_csv('DATA/links/vacancy_diff.csv', index=False, header=False)
+            try:
+                result_df.to_csv(result_file_path, index=False, header=False)
+                print(f"Файл с различиями сохранен как {result_file_path}")
+            except Exception as e:
+                print(f"Ошибка при сохранении файла {result_file_path}: {e}")
 
-            # Удаляем файл vacansies.csv, если он существует
+            # Удаляем файл vacancy_old, если он существует
             file_to_delete = vacancy_old
             if os.path.exists(file_to_delete):
                 os.remove(file_to_delete)
@@ -148,45 +184,19 @@ def main():
             else:
                 print(f"Файл {file_to_delete} не найден.")
 
-            # Переименовываем файл vacancy_old в vacancy_new
+            # Переименовываем файл vacancy_new в vacancy_old
             old_filename = vacancy_new
             new_filename = vacancy_old
             if os.path.exists(old_filename):
+                # Удаляем старый файл, если он существует
+                if os.path.exists(new_filename):
+                    os.remove(new_filename)
                 os.rename(old_filename, new_filename)
                 print(f"Файл {old_filename} переименован в {new_filename}.")
             else:
                 print(f"Файл {old_filename} не найден.")
 
-        # Это просто для ускорения процесса прочитаю ссылки из готового файла
-        # --------------------------------------------------------------------------------------------------
-        # Укажите путь к файлу
-        # file_path = 'DATA/links/vacancies_links.csv'
-
-        # Чтение CSV файла без заголовка
-        # df = pd.read_csv(file_path, header=None)
-
-        # Извлечение первого столбца в список
-        # links = df[0].tolist()
-
-        # Печать списка
-        # print(links)
-        # ------------------------------------------------------------------------------------------------------------------------
         pageslinks = getPagesLinks()
-        links = getVacancyLinks(pageslinks, dataExist)
-
-        # Путь к вашему CSV файлу во вложенной папке
-        file_path = 'DATA/links/vacancy_diff.csv'
-
-        # if os.path.exists(file_path):
-        #     # Открываем файл и читаем его содержимое
-        #     with open(file_path, mode='r', newline='', encoding='utf-8') as csvfile:
-        #         csvreader = csv.reader(csvfile)
-        #         for row in csvreader:
-        #             # Преобразуем список в строку, соединяя элементы через запятую
-        #             line = ','.join(row)
-        #             links.append(line)
-        # else:
-        #     print(f"Файл по адресу {file_path} не существует.")
 
         def getVacancies(links):
             export = []
@@ -248,18 +258,23 @@ def main():
         # Имя файла для сохранения
         file_name = f'DATA/data-{current_date}.jsonl'
 
-        def saveJSONL(file_name):
-            # Сохранение списка словарей в формате JSONL
-            with open(file_name, 'w', encoding='utf-8') as f:
-                for item in vacancies:
-                    f.write(json.dumps(item, ensure_ascii=False) + '\n')
-
+        def saveJSONL(vacancies, file_name, dataExist):
+            if dataExist:
+                # Сохранение списка словарей в формате JSONL
+                with open(file_name, 'w', encoding='utf-8') as f:
+                    for item in vacancies:
+                        f.write(json.dumps(item, ensure_ascii=False) + '\n')
+            else:
+                file_name_begin = 'DATA/data.jsonl'
+                with open(file_name_begin, 'w', encoding='utf-8') as f:
+                    for item in vacancies:
+                        f.write(json.dumps(item, ensure_ascii=False) + '\n')
             print(f"Data has been saved to {file_name}")
             return file_name
 
         def sendData(file_name):
             url = 'https://base.eriar.com/api/ads/import'
-            files = {'file': open('DATA/data.jsonl', 'rb')}
+            files = {'file': open(file_name, 'rb')}
             headers = {'Api-Key': 'ITmXtu3zu9OySyWSx9W7vWPARatx9YaG'}
 
             response = requests.post(url, files=files, headers=headers)
@@ -293,7 +308,9 @@ def main():
                     text_file.write(response.status_code)
 
         links, vacancy_new, vacancy_old = getVacancyLinks(pageslinks, dataExist)
-        print('vacancy_new=' + vacancy_new, 'vacancy_old=' + vacancy_old)
+        vacancy_old = 'DATA/links/vacancies_links.csv'
+        print('vacancy_new=' + str(vacancy_new), 'vacancy_old=' + str(vacancy_old))
+        vacancy_new = os.path.join('DATA/links', vacancy_new)
         compareVacanciesLinks(vacancy_old=vacancy_old, vacancy_new=vacancy_new)
 
         # Задаем путь к файлу
@@ -311,7 +328,10 @@ def main():
             print(f'Файл {file_path} не существует.')
 
         vacancies = getVacancies(links)
-        file_name = saveJSONL(file_name)
+
+        # Имя файла для сохранения
+        file_name = f'DATA/data-{current_date}.jsonl'
+        file_name = saveJSONL(vacancies, file_name, dataExist)
 
         sendData(file_name)
 
