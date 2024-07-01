@@ -1,1 +1,0 @@
-{"id":1189,"app_id":5,"user_id":64,"path":"ads_import\/7cU8SXCsAo1NFPREfXSdIuFP4Ny7NwiR44AIkHhb","status_id":0,"total":0,"processed":0,"created":0,"updated":0,"failed":0,"created_at":"2024-06-30T04:16:53.000000Z","updated_at":"2024-06-30T04:16:53.000000Z","errors":[]}

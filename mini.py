@@ -28,7 +28,8 @@ def main():
             # Прокси, которые вы хотите использовать
             return [
                 'http://51.159.4.17:15001',
-                'http://163.172.36.211:16001'
+                'http://163.172.36.211:16001',
+                'http://83.149.70.159:13010',
             ]
 
         def clean_string(s):
@@ -38,7 +39,7 @@ def main():
             modified_string = input_string.replace("Работа в ", "")
             return modified_string
 
-        def fetch_url_with_proxy(url, proxies, headers, max_retries=5):
+        def fetch_url_with_proxy(url, proxies, headers, max_retries=15):
             for i in range(max_retries):
                 proxy = random.choice(proxies)
                 proxy_dict = {"http://": proxy, "https://": proxy}
@@ -114,21 +115,21 @@ def main():
                 file_path = 'DATA/links/vacancies_links.csv'
 
                 # Проверяем, существует ли файл
-                if os.path.exists(file_path):
-                    current_datetime = datetime.now()
-                    current_date = current_datetime.strftime("%Y-%m-%d-%H-%M")
-                    file_path = f'DATA/links/vacancies_links-{current_date}.csv'
-                    vacancy_new = file_path
-                    with open(file_path, 'w', encoding='utf-8') as file:
-                        for item in links:
-                            file.write(item + "\n")
-
-                else:
-                    print(f'Файл {file_path} не существует. Создаем его')
-                    with open(file_path, 'w', encoding='utf-8') as file:
-                        # Запись каждого элемента списка в файл
-                        for item in links:
-                            file.write(item + "\n")
+            if os.path.exists(file_path):
+                current_datetime = datetime.now()
+                current_date = current_datetime.strftime("%Y-%m-%d-%H-%M")
+                file_path = f'DATA/links/vacancies_links-{current_date}.csv'
+                vacancy_new = file_path
+                with open(file_path, 'w', encoding='utf-8') as file:
+                    for item in links:
+                        file.write(item + "\n")
+                print(f'Файл {vacancy_new} создан')
+            else:
+                print(f'Файл {file_path} не существует. Создаем его')
+                with open(file_path, 'w', encoding='utf-8') as file:
+                    # Запись каждого элемента списка в файл
+                    for item in links:
+                        file.write(item + "\n")
             return links, vacancy_new
 
         def compareVacanciesLinks(vacancy_old, vacancy_new):
@@ -143,52 +144,30 @@ def main():
             except Exception as e:
                 print(f"Ошибка при удалении файла {file_path}: {e}")
             try:
-                # Чтение файлов в DataFrame
-                df1 = pd.read_csv(vacancy_old)
-                df2 = pd.read_csv(vacancy_new)
-
-                # Сравнение DataFrame
-                df_diff = pd.concat([df1, df2]).drop_duplicates(keep=False)
-                print(df_diff)
-                if not df_diff.empty:
-                    # Сохранение различий в файл без заголовка url
-                    nested_folder = "DATA/links/"
-                    file_name = "vacancy_diff.csv"
-                    file_path = os.path.join(nested_folder, file_name)
-
-                    os.makedirs(nested_folder, exist_ok=True)
-
-                    df_diff.to_csv(file_path, index=False, header=False)
-
-                    print(f'Файл {file_path} успешно создан.')
-
-                    # Удаление старого файла и переименование нового
-                    if os.path.exists(vacancy_old):
-                        os.remove(vacancy_old)
-                        print(f"Файл {vacancy_old} удалён.")
-
-                    os.rename(vacancy_new, vacancy_old)
-                    print(f"Файл {vacancy_new} переименован в {vacancy_old}.")
-
-                    # Определение количества новых вакансий
-                    num_new_vacancies = len(df_diff)
-                    print(num_new_vacancies)
-                    print(df_diff)
-                    return df_diff
-
-                else:
-                    print("Нет различий между файлами вакансий. Файл vacancy_diff.csv не будет создан.")
-                    return 0
-
-            except Exception as e:
-                print(f"Ошибка при сравнении файлов вакансий: {e}")
-                return -1
+                with open(vacancy_old, 'r') as file:
+                    # Читаем все строки файла, убираем символы новой строки и сохраняем их в список
+                    lines = [line.strip() for line in file]
+                with open(vacancy_new, 'r') as file:
+                    # Читаем все строки файла, убираем символы новой строки и сохраняем их в список
+                    lines_new = [line.strip() for line in file]
+                vacancies_diff = [item for item in lines_new if item not in lines]
+                print('Изменения в вакансиях')
+                print(vacancies_diff)
+                with open(f'report-{current_date}.txt', 'a') as file:
+                    # Запись строки в конец файла
+                    file.write(f"Новых вакансий + {str(len(vacancies_diff))}.\n")
+                if not vacancies_diff:
+                    print("Нет различий между файлами вакансий. Прекращение выполнения программы.")
+                    sys.exit(0)
+                return vacancies_diff
+            except:
+                pass
 
         pageLinks = getPagesLinks()
         links, vacancy_new = getVacancyLinks(pageLinks)
-        print(len(links))
+        print('Собрано вакансий ' + str(len(links)))
+        print(f'Они сохранены в файл {vacancy_new}')
         vacancy_old = 'DATA/links/vacancies_links.csv'
-        diff = compareVacanciesLinks(vacancy_old=vacancy_old, vacancy_new=vacancy_new)
 
         # Функция для получения данных по каждой вакансии
         def getVacancies(links):
@@ -199,6 +178,9 @@ def main():
                     print(f"Задержка на {delay:.2f} секунд")
                     time.sleep(delay)
                     response = fetch_url_with_proxy(link, proxies, headers)
+                    i = 0
+                    if response.status_code == 200:
+                        pass
                     html = response.text
                     soup = bs(html, "html.parser")
                     type_id = 1
@@ -235,6 +217,8 @@ def main():
                     print(f"Ошибка при сборе вакансии с ссылки {link}: {e}")
             return export
 
+        diff = compareVacanciesLinks(vacancy_old=vacancy_old, vacancy_new=vacancy_new)
+        print('Длина diff ' + str(len(diff)))
         vacancies = getVacancies(diff)
 
         # Функция для сохранения данных в формате JSONL
@@ -301,6 +285,7 @@ def main():
     except Exception as e:
         logging.error("Произошла ошибка", exc_info=True)
         print(f"Ошибка записана в файл error.log: {e}")
+
 
 if __name__ == "__main__":
     main()
